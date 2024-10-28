@@ -140,15 +140,18 @@ function GlobalProvider({ children }) {
   }
 
   function recentHistory() {
-    // Combine income and expense arrays
-    const combinedHistory = [...income, ...expense];
+    // Combine income and expense arrays, including a type field
+    const combinedHistory = [
+      ...income.map((entry) => ({ ...entry, type: "income" })),
+      ...expense.map((entry) => ({ ...entry, type: "expense" })),
+    ];
 
     // Sort by date in descending order
     const sortedHistory = combinedHistory.sort(
       (a, b) => new Date(b.date) - new Date(a.date)
     );
 
-    // Return only the most recent 5 items
+    // Return only the most recent 3 items
     return sortedHistory.slice(0, 3);
   }
 

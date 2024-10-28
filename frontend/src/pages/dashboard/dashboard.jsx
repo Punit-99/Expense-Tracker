@@ -23,7 +23,6 @@ const Dashboard = () => {
       <div className="grid grid-cols-2 grid-rows-2 gap-4 m-4">
         {/* Top Left (Northwest) */}
         <div className="bg-gray-100 rounded-lg shadow-md p-6 flex justify-center items-center">
-          <h2 className="text-lg font-medium mb-4">Income & Expense Chart</h2>
           <IncomeExpenseChart income={income} expense={expense} />
           {/* Render the chart here */}
         </div>
@@ -36,10 +35,26 @@ const Dashboard = () => {
               {recentHistory().map((item, index) => (
                 <li
                   key={index}
-                  className="flex justify-between items-center bg-white shadow-lg rounded p-4 space-x-4"
+                  className={`flex justify-between items-center shadow-lg rounded-lg p-4 space-x-4`}
                 >
-                  <span>{item.title}</span>
-                  <span>${item.amount}</span>
+                  <span
+                    className={
+                      item.type === "expense"
+                        ? "text-red-500"
+                        : "text-green-500"
+                    }
+                  >
+                    {item.title}
+                  </span>
+                  <span
+                    className={
+                      item.type === "expense"
+                        ? "text-red-500"
+                        : "text-green-500"
+                    }
+                  >
+                    ${item.amount}
+                  </span>
                 </li>
               ))}
             </ul>
@@ -50,19 +65,25 @@ const Dashboard = () => {
         <div className="flex gap-4 p-5 bg-gray-100 rounded-lg shadow-md">
           <div className="w-60 h-40 p-4 bg-white shadow-md rounded-xl ">
             <p className="text-xl font-medium text-center">
-              Total Income: ${totalIncome}
+              Total Income
+              <br />
+              <span className=" text-green-500">${totalIncome}</span>
             </p>
           </div>
 
           <div className="w-60 h-40 p-4 bg-white shadow-md rounded-xl ">
             <p className="text-xl font-medium text-center">
-              Total Expense: ${totalExpense}
+              Total Expense <br />
+              <span className="text-red-500">${totalExpense}</span>
             </p>
           </div>
 
           <div className="w-60 h-40 p-4 bg-white shadow-md rounded-xl ">
             <p className="text-xl font-medium text-center">
-              Balance: ${totalIncome - totalExpense}
+              Balance <br />
+              <span className="flex justify-center align-middle text-sky-500">
+                ${totalIncome - totalExpense}
+              </span>
             </p>
           </div>
         </div>
@@ -72,7 +93,7 @@ const Dashboard = () => {
           <h2 className="text-lg font-medium flex items-center justify-between w-full">
             Min <span className="text-base font-normal">Income</span> Max
           </h2>
-          <div className="bg-pink-50 border-2 border-white shadow-md rounded-xl p-4 flex justify-between items-center w-full">
+          <div className="bg-white border-2 shadow-md rounded-xl p-4 flex justify-between items-center w-full">
             <p className="text-base font-normal">${minIncome}</p>
             <p className="text-base font-normal">${maxIncome}</p>
           </div>
@@ -80,7 +101,7 @@ const Dashboard = () => {
           <h2 className="text-lg font-medium flex items-center justify-between w-full">
             Min <span className="text-base font-normal">Expense</span> Max
           </h2>
-          <div className="bg-pink-50 border-2 border-white shadow-md rounded-xl p-4 flex justify-between items-center w-full">
+          <div className="bg-white border-2 shadow-md rounded-xl p-4 flex justify-between items-center w-full">
             <p className="text-base font-normal">${minExpense}</p>
             <p className="text-base font-normal">${maxExpense}</p>
           </div>
