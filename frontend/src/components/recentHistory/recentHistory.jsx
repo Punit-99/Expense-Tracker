@@ -21,43 +21,45 @@ const RecentHistroy = ({
 }) => {
   {
     const content = isDashboard ? (
-      <ul className="space-y-4">
-        {transactions.length ? (
-          transactions.map((transaction) => (
-            <li
-              key={transaction._id}
-              className="flex justify-between items-center bg-white shadow-sm rounded-lg p-4 space-x-4"
-            >
-              <div className="flex justify-between align-middle w-screen ">
-                <div
-                  className={`font-bold text-lg ${
-                    transaction.type === "income"
-                      ? "text-green-500"
-                      : "text-red-500"
-                  }`}
-                >
-                  {transaction.title}
+      <div className="-lg p-4 w-full">
+        <ul className="space-y-4">
+          {transactions.length ? (
+            transactions.map((transaction) => (
+              <li
+                key={transaction._id}
+                className="flex justify-between items-center bg-white shadow-sm rounded-lg p-4 space-x-4"
+              >
+                <div className="flex justify-between align-middle w-screen ">
+                  <div
+                    className={`font-bold text-lg ${
+                      transaction.type === "income"
+                        ? "text-green-500"
+                        : "text-red-500"
+                    }`}
+                  >
+                    {transaction.title}
+                  </div>
+                  <div
+                    className={`font-bold text-lg flex items-center ${
+                      transaction.type === "income"
+                        ? "text-green-500"
+                        : "text-red-500"
+                    }`}
+                  >
+                    {transaction.type === "income" ? <FaPlus /> : <FaMinus />}
+                    {<FaDollarSign />}
+                    {transaction.amount}
+                  </div>
                 </div>
-                <div
-                  className={`font-bold text-lg flex items-center ${
-                    transaction.type === "income"
-                      ? "text-green-500"
-                      : "text-red-500"
-                  }`}
-                >
-                  {transaction.type === "income" ? <FaPlus /> : <FaMinus />}
-                  {<FaDollarSign />}
-                  {transaction.amount}
-                </div>
-              </div>
-            </li>
-          ))
-        ) : (
-          <p className="flex justify-center text-red-500 align-middle">
-            No Recent History
-          </p>
-        )}
-      </ul>
+              </li>
+            ))
+          ) : (
+            <p className="flex justify-center text-red-500 align-middle">
+              No Recent History
+            </p>
+          )}
+        </ul>
+      </div>
     ) : (
       <ul className="space-y-4">
         {transactions.length ? (
