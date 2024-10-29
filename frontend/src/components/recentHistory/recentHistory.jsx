@@ -21,7 +21,8 @@ const RecentHistroy = ({
 }) => {
   {
     const content = isDashboard ? (
-      <div className="-lg p-4 w-full">
+      // DashBoard View
+      <div className="p-4 w-full">
         <ul className="space-y-4">
           {transactions.length ? (
             transactions.map((transaction) => (
@@ -29,7 +30,7 @@ const RecentHistroy = ({
                 key={transaction._id}
                 className="flex justify-between items-center bg-white shadow-sm rounded-lg p-4 space-x-4"
               >
-                <div className="flex justify-between align-middle w-screen ">
+                <div className="flex justify-between items-center w-full">
                   <div
                     className={`font-bold text-lg ${
                       transaction.type === "income"
@@ -46,8 +47,12 @@ const RecentHistroy = ({
                         : "text-red-500"
                     }`}
                   >
-                    {transaction.type === "income" ? <FaPlus /> : <FaMinus />}
-                    {<FaDollarSign />}
+                    {transaction.type === "income" ? (
+                      <FaPlus className="mr-1" />
+                    ) : (
+                      <FaMinus className="mr-1" />
+                    )}
+                    <FaDollarSign className="mr-1" />
                     {transaction.amount}
                   </div>
                 </div>
