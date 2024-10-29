@@ -146,10 +146,13 @@ function GlobalProvider({ children }) {
       ...expense.map((entry) => ({ ...entry, type: "expense" })),
     ];
 
-    // Sort by date in descending order
-    const sortedHistory = combinedHistory.sort(
-      (a, b) => new Date(b.date) - new Date(a.date)
-    );
+    // Sort by date and time in descending order
+    const sortedHistory = combinedHistory.sort((a, b) => {
+      const dateA = new Date(a.date).getTime(); // Get timestamp for a
+      const dateB = new Date(b.date).getTime(); // Get timestamp for b
+
+      return dateB - dateA; // Sort in descending order
+    });
 
     // Return only the most recent 3 items
     return sortedHistory.slice(0, 3);

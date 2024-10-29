@@ -2,6 +2,7 @@
 import { useContext } from "react";
 import { GlobalContext } from "../../context/globalContext";
 import IncomeExpenseChart from "../../components/transactionchart/IncomeExpenseChart";
+import RecentHistory from "../../components/recentHistory/recentHistory"; // Import your RecentHistory component
 
 const Dashboard = () => {
   const { calculateTotal, recentHistory, minMaxAmount, income, expense } =
@@ -17,6 +18,9 @@ const Dashboard = () => {
     expense
   ) || { minAmount: 0, maxAmount: 0 };
 
+  {
+    console.log(recentHistory());
+  }
   return (
     <>
       <div className="font-bold text-2xl m-4 text-gray-800">Dashboard</div>
@@ -24,40 +28,13 @@ const Dashboard = () => {
         {/* Top Left (Northwest) */}
         <div className="bg-gray-100 rounded-lg shadow-md p-6 flex justify-center items-center">
           <IncomeExpenseChart income={income} expense={expense} />
-          {/* Render the chart here */}
         </div>
 
         {/* Top Right (Northeast) */}
         <div className="bg-gray-100 rounded-lg shadow-md p-6 h-max-[240px]">
           <h2 className="text-lg font-medium mb-4">Recent History</h2>
-          <div className="-lg  p-4 w-full">
-            <ul className="space-y-4">
-              {recentHistory().map((item, index) => (
-                <li
-                  key={index}
-                  className={`flex justify-between items-center shadow-lg rounded-lg p-4 space-x-4`}
-                >
-                  <span
-                    className={
-                      item.type === "expense"
-                        ? "text-red-500"
-                        : "text-green-500"
-                    }
-                  >
-                    {item.title}
-                  </span>
-                  <span
-                    className={
-                      item.type === "expense"
-                        ? "text-red-500"
-                        : "text-green-500"
-                    }
-                  >
-                    ${item.amount}
-                  </span>
-                </li>
-              ))}
-            </ul>
+          <div className="-lg p-4 w-full">
+            <RecentHistory transactions={recentHistory()} isDashboard={true} />
           </div>
         </div>
 
@@ -67,7 +44,7 @@ const Dashboard = () => {
             <p className="text-xl font-medium text-center">
               Total Income
               <br />
-              <span className=" text-green-500">${totalIncome}</span>
+              <span className="text-green-500">${totalIncome}</span>
             </p>
           </div>
 
