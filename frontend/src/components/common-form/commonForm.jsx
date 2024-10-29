@@ -23,10 +23,11 @@ const CommonForm = ({
   formData,
   setFormData,
   buttonText,
+  ButtonIcon = null,
   onHandleSubmit,
   buttonVarient,
   disabled,
-  dateFieldName, // Add this prop
+  dateFieldName,
 }) => {
   function renderFormElement(getCurrentElement) {
     let content = null;
@@ -40,12 +41,28 @@ const CommonForm = ({
             placeholder={getCurrentElement.placeholder}
             type={getCurrentElement.type}
             value={formData[getCurrentElement.name] || ""}
-            onChange={(event) =>
-              setFormData({
-                ...formData,
-                [event.target.name]: event.target.value,
-              })
-            }
+            onChange={(event) => {
+              const { name, value } = event.target;
+
+              // Check if the input field is for amount
+              if (name === "SalaryAmount" || name === "ExpenseAmount") {
+                // Parse the value as a number for the amount field
+                const numericValue = parseFloat(value); // Use parseFloat for decimals
+
+                // Update formData only if numericValue is non-negative or NaN (for clearing input)
+                setFormData({
+                  ...formData,
+                  [name]:
+                    numericValue >= 0 || isNaN(numericValue) ? numericValue : 0,
+                });
+              } else {
+                // For other fields (like title), update directly
+                setFormData({
+                  ...formData,
+                  [name]: value,
+                });
+              }
+            }}
             className="bg-white"
           />
         );
@@ -83,10 +100,18 @@ const CommonForm = ({
               placeholder={getCurrentElement.placeholder}
             />
             <div className="flex space-x-2">
-              <Button type="button" onClick={() => handleSetDate(-1)}>
+              <Button
+                type="button"
+                variant="calendar"
+                onClick={() => handleSetDate(-1)}
+              >
                 Yesterday
               </Button>
-              <Button type="button" onClick={() => handleSetDate(0)}>
+              <Button
+                type="button"
+                variant="calendar"
+                onClick={() => handleSetDate(0)}
+              >
                 Today
               </Button>
             </div>
@@ -155,7 +180,7 @@ const CommonForm = ({
         size={"lg"}
         disabled={disabled}
       >
-        {buttonText}
+        {ButtonIcon} {buttonText}
       </Button>
     </form>
   );

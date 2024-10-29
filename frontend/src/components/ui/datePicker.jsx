@@ -17,12 +17,16 @@ export function DatePicker({ selected, onChange, placeholder }) {
         <Button
           variant={"outline"}
           className={cn(
-            "w-[280px] justify-start text-left font-normal",
+            "w-[280px] justify-between text-left font-normal ",
             !selected && "text-muted-foreground"
           )}
         >
-          <CalendarIcon />
-          {selected ? format(selected, "PPP") : <span>{placeholder}</span>}
+          {selected ? (
+            format(selected, "PPP")
+          ) : (
+            <span className=" font-medium text-black">{placeholder}</span>
+          )}
+          <CalendarIcon className=" text-black" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0">
