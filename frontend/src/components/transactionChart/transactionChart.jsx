@@ -29,7 +29,7 @@ ChartJS.register(
   Filler // Register the Filler plugin here
 );
 
-const IncomeExpenseChart = ({ income, expense }) => {
+const TransactionChart = ({ income, expense }) => {
   const incomeData = income.map((entry) => ({
     x: entry.date, // Ensure your date format is compatible with Chart.js
     y: entry.amount,
@@ -77,4 +77,4 @@ const IncomeExpenseChart = ({ income, expense }) => {
   return <Line data={data} options={options} />;
 };
 
-export default IncomeExpenseChart;
+export default TransactionChart;

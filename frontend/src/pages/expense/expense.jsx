@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { useContext, useState } from "react";
 import { GlobalContext } from "../../context/globalContext";
 import formControls from "../../config/configIndex";
@@ -8,7 +7,7 @@ import { FaMinus } from "react-icons/fa6";
 import RecentHistroy from "../../components/recentHistory/recentHistory";
 const Expense = () => {
   const { ExpenseFormControl } = formControls;
-  const { addExpense, deleteExpense, expense, calculateTotal, error } =
+  const { addExpense, deleteExpense, expense, calculateTotal } =
     useContext(GlobalContext);
 
   const initialFormState = {

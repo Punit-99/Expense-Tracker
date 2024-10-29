@@ -1,10 +1,10 @@
 // src/components/Dashboard.js
 import { useContext } from "react";
 import { GlobalContext } from "../../context/globalContext";
-import IncomeExpenseChart from "../../components/transactionchart/IncomeExpenseChart";
 import RecentHistory from "../../components/recentHistory/recentHistory"; // Import your RecentHistory component
 import AmountBoxes from "../../components/amountBoxes/amountBoxes";
 import MinMaxBox from "../../components/minMaxBox/minMaxBox";
+import TransactionChart from "../../components/transactionChart/transactionChart";
 
 const Dashboard = () => {
   const { recentHistory, income, expense } = useContext(GlobalContext);
@@ -16,7 +16,7 @@ const Dashboard = () => {
         {/* First Sub-Parent: Row Layout */}
         <div className="flex flex-row gap-4">
           <div className="flex-1 bg-gray-100 rounded-lg shadow-md p-6 flex justify-center items-center">
-            <IncomeExpenseChart income={income} expense={expense} />
+            <TransactionChart income={income} expense={expense} />
           </div>
 
           <div className="flex-1 bg-gray-100 rounded-lg shadow-md p-6 h-max-[240px]">

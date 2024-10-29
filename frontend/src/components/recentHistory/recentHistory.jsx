@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import {
   FaTrash,
   FaMessage,
@@ -12,6 +11,7 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
+import iconMapping from "../../utils/iconMap"; // Adjust the path accordingly
 
 const RecentHistroy = ({
   transactions = [],
@@ -73,21 +73,22 @@ const RecentHistroy = ({
               key={transaction._id}
               className="flex justify-between items-center bg-white shadow-sm rounded-lg p-4 space-x-4"
             >
-              {/* Image/Icon section */}
               <div className="flex justify-center items-center w-12 h-12 bg-gray-200 rounded-lg">
-                <span className="text-gray-600">img</span>
+                <span className="text-lg">
+                  {iconMapping[transaction.category]}
+                </span>
               </div>
 
               {/* Title, Amount, Date section */}
               <div className="flex flex-col flex-grow mx-4">
-                <div className="font-bold text-lg ">{transaction.title}</div>
+                <div className="font-bold text-lg">{transaction.title}</div>
                 <div className="flex gap-10 items-center ">
                   <div
-                    className={`text-gray-600 flex items-center    ${
+                    className={`text-gray-600 flex items-center ${
                       isIncome ? "text-green-500" : "text-red-500"
                     }`}
                   >
-                    {<FaDollarSign />}
+                    <FaDollarSign />
                     {transaction.amount}
                   </div>
                   <div className="text-gray-600 flex items-center">
@@ -99,7 +100,7 @@ const RecentHistroy = ({
 
               <div className="flex items-center space-x-2">
                 <HoverCard>
-                  <HoverCardTrigger className=" bg-slate-500 text-white hover:text-white hover:bg-slate-700 border border-slate-500 focus:ring-4 focus:outline-none  font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center">
+                  <HoverCardTrigger className="bg-slate-500 text-white hover:text-white hover:bg-slate-700 border border-slate-500 focus:ring-4 focus:outline-none font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center">
                     <FaMessage size={17} />
                   </HoverCardTrigger>
                   <HoverCardContent>

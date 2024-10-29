@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom"; // Ensure you import useLocation
+import { Link, useLocation } from "react-router-dom"; 
 
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import avatarImg from "../../assets/avatar.png";
