@@ -1,7 +1,5 @@
-Here's the README content in Markdown format:
 
 ```markdown
-# MERN Stack Application
 
 ## Project Setup
 
@@ -77,7 +75,7 @@ Ensure you have the following installed:
 ## Running the Full Application
 
 1. **Start both frontend and backend servers.**
-2. **Visit the frontend at** `http://localhost:3000` **to interact with the application.**
+2. **Visit the frontend at** `http://localhost:5173/` **to interact with the application.**
 
 ---
 
@@ -86,6 +84,6 @@ Ensure you have the following installed:
 - Ensure MongoDB is running before starting the backend server.
 - For any issues, please refer to the logs for error messages.
 
----
-```
+
+
 
