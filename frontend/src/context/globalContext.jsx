@@ -2,6 +2,7 @@
 /* eslint-disable react/prop-types */
 import { createContext, useEffect, useState } from "react";
 import axios from "axios";
+import { useToast } from "@/hooks/use-toast";
 
 const BASE_URL = "http://localhost:5000/api/v1/";
 export const GlobalContext = createContext();
@@ -10,6 +11,7 @@ function GlobalProvider({ children }) {
   const [income, setIncome] = useState([]);
   const [expense, setExpense] = useState([]);
   const [error, setError] = useState(null);
+  const { toast } = useToast();
 
   // Add income
   const addIncome = async (incomeData) => {
@@ -27,11 +29,13 @@ function GlobalProvider({ children }) {
         formattedIncome
       );
       if (response.status === 200) {
+        renderToast("Income Added", "success");
         await getIncome();
       } else {
-        console.log("Failed to add income:", response);
+        renderToast("Failed to add income", "destructive");
       }
     } catch (error) {
+      renderToast("Failed to add income", "destructive");
       console.error(
         "Error adding income:",
         error.response ? error.response.data : error.message
@@ -40,12 +44,13 @@ function GlobalProvider({ children }) {
     }
   };
 
+  // Get income
   const getIncome = async () => {
     try {
       const response = await axios.get(`${BASE_URL}get-income`);
-      const data = response.data;
-      setIncome(data || []);
+      setIncome(response.data || []);
     } catch (error) {
+      renderToast("Unable to fetch income", "destructive");
       setError(error);
     }
   };
@@ -57,7 +62,9 @@ function GlobalProvider({ children }) {
       setIncome((prevIncome) =>
         prevIncome.filter((income) => income._id !== id)
       );
+      renderToast("Income Deleted", "success");
     } catch (error) {
+      renderToast("Failed to delete income", "destructive");
       setError(error);
     }
   };
@@ -77,13 +84,14 @@ function GlobalProvider({ children }) {
         `${BASE_URL}add-expense`,
         formattedExpense
       );
-
       if (response.status === 200) {
+        renderToast("Expense Added", "success");
         await getExpense();
       } else {
-        console.log("Failed to add expense:", response);
+        renderToast("Failed to add expense", "destructive");
       }
     } catch (error) {
+      renderToast("Failed to add expense", "destructive");
       console.error(
         "Error adding expense:",
         error.response ? error.response.data : error.message
@@ -96,9 +104,9 @@ function GlobalProvider({ children }) {
   const getExpense = async () => {
     try {
       const response = await axios.get(`${BASE_URL}get-expense`);
-      const data = response.data;
-      setExpense(data || []);
+      setExpense(response.data || []);
     } catch (error) {
+      renderToast("Unable to fetch expenses", "destructive");
       setError(error);
     }
   };
@@ -110,52 +118,49 @@ function GlobalProvider({ children }) {
       setExpense((prevExpense) =>
         prevExpense.filter((expense) => expense._id !== id)
       );
+      renderToast("Expense Deleted", "success");
     } catch (error) {
+      renderToast("Failed to delete expense", "destructive");
       setError(error);
     }
   };
 
   // Total
   function calculateTotal(entries) {
-    let total = 0;
-
-    for (const entry of entries) {
-      total += entry.amount;
-    }
-
-    return total;
+    return entries.reduce((total, entry) => total + entry.amount, 0);
   }
 
-  // Diffrence
+  // Difference
   function amountDifference() {
     return calculateTotal(income) - calculateTotal(expense);
   }
 
-  //minAmount
+  // Min & Max Amount
   function minMaxAmount(entries) {
     if (!entries || entries.length === 0) return null;
-    let minAmount = Math.min(...entries.map((minItem) => minItem.amount));
-    let maxAmount = Math.max(...entries.map((maxItem) => maxItem.amount));
+    let minAmount = Math.min(...entries.map((item) => item.amount));
+    let maxAmount = Math.max(...entries.map((item) => item.amount));
     return { minAmount, maxAmount };
   }
 
+  // Recent History
   function recentHistory() {
-    // Combine income and expense arrays, including a type field
     const combinedHistory = [
       ...income.map((entry) => ({ ...entry, type: "income" })),
       ...expense.map((entry) => ({ ...entry, type: "expense" })),
     ];
 
-    // Sort by date and time in descending order
-    const sortedHistory = combinedHistory.sort((a, b) => {
-      const dateA = new Date(a.date).getTime(); // Get timestamp for a
-      const dateB = new Date(b.date).getTime(); // Get timestamp for b
+    return combinedHistory
+      .sort((a, b) => new Date(b.date) - new Date(a.date))
+      .slice(0, 3);
+  }
 
-      return dateB - dateA; // Sort in descending order
+  // Render Toast
+  function renderToast(description, variant) {
+    toast({
+      description,
+      variant,
     });
-
-    // Return only the most recent 3 items
-    return sortedHistory.slice(0, 3);
   }
 
   useEffect(() => {
