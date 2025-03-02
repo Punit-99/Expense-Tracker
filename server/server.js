@@ -3,17 +3,16 @@ const app = express();
 const dotenv = require("dotenv").config();
 const cors = require("cors");
 const connectDB = require("./db/database");
-const { readdirSync } = require("fs");
-const { route } = require("./routes/transaction");
+const transactionRoute = require("./routes/transaction");
+const authRoute = require("./routes/auth");
 
 //middlewares
 app.use(express.json());
 app.use(cors());
 
 //routes
-readdirSync("./routes").map((route) =>
-  app.use("/api/v1", require("./routes/" + route))
-);
+app.use("/api/v1", transactionRoute);
+app.use("/api/v1", authRoute);
 
 // server start
 const startServer = () => {
