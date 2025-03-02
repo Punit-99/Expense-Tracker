@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { GlobalContext } from "../../context/globalContext";
+import { GlobalContext } from "../../context/globalStore";
 import { FaDollarSign } from "react-icons/fa6";
 
 const MinMaxBox = () => {

@@ -1,12 +1,12 @@
 import { useContext, useState } from "react";
-import { GlobalContext } from "../../context/globalContext";
+import { GlobalContext } from "../../context/globalStore";
 import formControls from "../../config/configIndex";
 import CommonForm from "../../components/common-form/commonForm";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { FaMinus } from "react-icons/fa6";
 import RecentHistroy from "../../components/recentHistory/recentHistory";
 const Expense = () => {
-  const { ExpenseFormControl } = formControls;
+  const { expenseFormControl } = formControls;
   const { addExpense, deleteExpense, expense, calculateTotal } =
     useContext(GlobalContext);
 
@@ -53,7 +53,7 @@ const Expense = () => {
       <div className="flex flex-col md:flex-row justify-between items-start mx-4 space-y-4 md:space-y-0">
         <div className="flex-1 bg-gray-100 shadow-md rounded-lg p-6 h-[452px]">
           <CommonForm
-            formControl={ExpenseFormControl}
+            formControl={expenseFormControl}
             formData={expenseFormData}
             setFormData={setExpenseFormData}
             onHandleSubmit={onHandleSubmit}

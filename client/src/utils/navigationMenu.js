@@ -8,7 +8,7 @@ const items = [
   {
     title: "Dashboard",
     icon: FaChartLine,
-    url: "/",
+    url: "/dashboard",
   },
   {
     title: "Incomes",

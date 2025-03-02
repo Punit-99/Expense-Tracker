@@ -1,5 +1,5 @@
-import { Link, useLocation } from "react-router-dom"; 
-
+import { Link, useLocation } from "react-router-dom";
+import { GlobalContext } from "../../context/globalStore";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import avatarImg from "../../assets/avatar.png";
 import { IoLogOut } from "react-icons/io5";
@@ -16,9 +16,15 @@ import {
   SidebarFooter,
 } from "@/components/ui/sidebar";
 import { Separator } from "../ui/separator";
+import { useContext } from "react";
 
 export function SideBar() {
+  const { logout } = useContext(GlobalContext);
   const location = useLocation();
+
+  const handleLogout = () => {
+    logout();
+  };
 
   return (
     <Sidebar variant="floating" collapsible="icon">
@@ -65,7 +71,7 @@ export function SideBar() {
             <SidebarMenuButton asChild>
               <Link to="#" className="flex items-center">
                 <IoLogOut />
-                <span>Sign Out</span>
+                <button  onClick={handleLogout}>Sign Out</button>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
