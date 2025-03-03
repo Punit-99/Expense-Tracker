@@ -11,9 +11,7 @@ import { checkAuth } from "./store/auth/authSlice";
 import Registration from "./pages/auth-view/registration";
 import Login from "./pages/auth-view/login";
 function App() {
-  const { user, isAuthenticated, isLoading } = useSelector(
-    (state) => state.auth
-  );
+  const { isAuthenticated, isLoading } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
 
