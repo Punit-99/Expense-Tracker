@@ -47,11 +47,20 @@ export const LoginFormControl = [
     placeholder: "Enter your password",
     componentType: "input",
   },
+  {
+    name: "otp",
+    id: "otp",
+    label: "OTP",
+    type: "number",
+    placeholder: "Enter OTP",
+    componentType: "otp",
+  },
 ];
 
 export const LoginFormInitials = {
   email: "",
   password: "",
+  otp: "",
 };
 
 export const IncomeFormControl = [

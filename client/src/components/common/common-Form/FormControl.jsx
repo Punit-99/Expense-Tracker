@@ -14,8 +14,22 @@ import { Calendar } from "../../ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "../../ui/popover";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSeparator,
+  InputOTPSlot,
+} from "../../ui/input-otp";
 
-const FormControls = ({ formControls = [], formData, setFormData }) => {
+const FormControls = ({
+  formControls = [],
+  formData,
+  setFormData,
+  handleGetOTP,
+  isButtonDisabled,
+  otpSent,
+  otpVerified,
+}) => {
   function renderInputsByComponentType(getControlItem) {
     let element = null;
     const value = formData[getControlItem.name] || "";
@@ -114,6 +128,40 @@ const FormControls = ({ formControls = [], formData, setFormData }) => {
           </div>
         );
         break;
+      case "otp":
+        element = (
+          <div className="flex items-center gap-2">
+            <InputOTP
+              maxLength={6}
+              value={value}
+              onChange={(otpValue) =>
+                setFormData({ ...formData, [getControlItem.name]: otpValue })
+              }
+            >
+              <InputOTPGroup>
+                <InputOTPSlot index={0} />
+                <InputOTPSlot index={1} />
+                <InputOTPSlot index={2} />
+              </InputOTPGroup>
+              <InputOTPSeparator />
+              <InputOTPGroup>
+                <InputOTPSlot index={3} />
+                <InputOTPSlot index={4} />
+                <InputOTPSlot index={5} />
+              </InputOTPGroup>
+            </InputOTP>
+            <Button
+              type="button"
+              className="px-3 py-3 rounded bg-blue-500 text-white text-sm disabled:bg-gray-400"
+              onClick={handleGetOTP}
+              disabled={isButtonDisabled || otpVerified} // ✅ Disable button after OTP verification
+            >
+              {otpVerified ? "Verified " : otpSent ? "Verify OTP" : "Get OTP"}
+            </Button>
+          </div>
+        );
+        break;
+
       default:
         element = (
           <Input

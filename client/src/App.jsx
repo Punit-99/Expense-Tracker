@@ -19,7 +19,7 @@ function App() {
     dispatch(checkAuth());
   }, [dispatch]);
 
-  if (isLoading) return "Loading...";
+  // if (isLoading) return "Loading...";
   return (
     <>
       <Routes>
