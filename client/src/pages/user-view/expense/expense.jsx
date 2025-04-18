@@ -54,7 +54,7 @@ const Expense = () => {
                 calculateTotal(expense) !== 0 ? "text-red-500" : "text-gray-700"
               }
             >
-              ${calculateTotal(expense)}
+              &#x20B9; {calculateTotal(expense)}
             </span>
           </h2>
         </div>

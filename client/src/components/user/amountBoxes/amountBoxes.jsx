@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchIncome } from "../../../store/transaction/incomeSlice";
 import { fetchExpense } from "../../../store/transaction/expenseSlice";
-import { FaDollarSign } from "react-icons/fa6";
+import { IndianRupee } from "lucide-react";
 
 const AmountBoxes = () => {
   const dispatch = useDispatch();
@@ -57,7 +57,8 @@ const AmountBoxes = () => {
                     : "text-red-500"
                 }`}
             >
-              <FaDollarSign /> {singleBox.content}
+              <IndianRupee size={"20px"} strokeWidth={"3px"} />
+              {singleBox.content}
             </span>
           </p>
         </div>

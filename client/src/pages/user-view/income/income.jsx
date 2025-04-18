@@ -53,7 +53,7 @@ const Income = () => {
                 income.length === 0 ? "text-red-500" : "text-green-500"
               }
             >
-              ${calculateTotal(income)}
+              &#x20B9;{calculateTotal(income)}
             </span>
           </h2>
         </div>

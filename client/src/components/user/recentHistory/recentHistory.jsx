@@ -7,23 +7,29 @@ import {
   FaTrash,
   FaMessage,
   FaCalendarDays,
-  FaDollarSign,
   FaPlus,
   FaMinus,
 } from "react-icons/fa6";
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@/components/ui/hover-card";
+import { useState } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
 import { ScrollArea } from "@/components/ui/scroll-area"; // Import ScrollArea from shadCN
 import iconMapping from "../../../util/iconMap";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { IndianRupee } from "lucide-react";
 
 const RecentHistory = ({
   onDelete = null,
   isIncome = false,
   isDashboard = false,
 }) => {
+  const [imgLoading, setImgLoading] = useState(true);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -75,7 +81,11 @@ const RecentHistory = ({
                     ) : (
                       <FaMinus className="mr-1" />
                     )}
-                    <FaDollarSign className="mr-1" />
+                    <IndianRupee
+                      size={"20px"}
+                      strokeWidth={"3px"}
+                      className="mr-1"
+                    />
                     {transaction.amount !== undefined
                       ? transaction.amount
                       : "N/A"}
@@ -115,7 +125,7 @@ const RecentHistory = ({
                     isIncome ? "text-green-500" : "text-red-500"
                   }`}
                 >
-                  <FaDollarSign />
+                  <IndianRupee size={"20px"} strokeWidth={"3px"} />
                   {transaction.amount !== undefined
                     ? transaction.amount
                     : "N/A"}
@@ -130,16 +140,100 @@ const RecentHistory = ({
             </div>
 
             <div className="flex items-center space-x-2">
-              <HoverCard>
-                <HoverCardTrigger className="bg-slate-500 text-white hover:text-white hover:bg-slate-700 border border-slate-500 focus:ring-4 focus:outline-none font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center">
-                  <FaMessage size={17} />
-                </HoverCardTrigger>
-                <HoverCardContent>
-                  <div className="p-2 text-gray-700">
-                    {transaction.description || "No description available"}
-                  </div>
-                </HoverCardContent>
-              </HoverCard>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <button className="bg-slate-500 text-white hover:text-white hover:bg-slate-700 border border-slate-500 focus:ring-4 focus:outline-none font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center">
+                    <FaMessage size={17} />
+                  </button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>{`${transaction.type} Details`}</DialogTitle>
+                    <DialogDescription>
+                      <div className="space-y-4 text-sm text-gray-700">
+                        {/* Title */}
+                        <div>
+                          <p className="font-semibold text-base">Title:</p>
+                          <p>{transaction.title || "No Title"}</p>
+                        </div>
+                        {/* Amount */}
+                        <div className="flex flex-col gap-1">
+                          <p className="font-semibold text-base">
+                            {transaction.type} Amount:
+                          </p>
+
+                          <div className="flex items-center gap-2">
+                            <IndianRupee
+                              size={"20px"}
+                              strokeWidth={"3px"}
+                              className="text-green-600"
+                            />
+                            <span className="font-medium">
+                              {transaction.amount !== undefined
+                                ? transaction.amount
+                                : "N/A"}
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Date */}
+                        {/* Date */}
+                        <div className="flex flex-col gap-1">
+                          <p className="font-semibold text-base">Date:</p>
+                          <div className="flex items-center gap-2">
+                            <FaCalendarDays className="text-blue-500" />
+                            <span>
+                              {transaction.date
+                                ? new Date(
+                                    transaction.date
+                                  ).toLocaleDateString()
+                                : "No Date"}
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Image */}
+                        <div className="flex flex-col gap-2">
+                          <p className="font-semibold text-base">
+                            Receipt/Image:
+                          </p>
+                          {transaction.image ? (
+                            <div className="text-center space-y-2">
+                              {imgLoading && (
+                                <Skeleton className="mx-auto w-[200px] h-[150px] rounded-lg" />
+                              )}
+
+                              <img
+                                src={transaction.image?.imageURL}
+                                alt="Transaction"
+                                className={`mx-auto border border-gray-300 rounded-lg max-h-48 object-contain transition-opacity duration-300 ${
+                                  imgLoading ? "opacity-0" : "opacity-100"
+                                }`}
+                                onLoad={() => setImgLoading(false)}
+                              />
+                            </div>
+                          ) : (
+                            <p className="text-gray-500 italic">
+                              No image provided
+                            </p>
+                          )}
+                        </div>
+
+                        {/* Description */}
+                        <div className="flex flex-col gap-1">
+                          <p className="font-semibold text-base">
+                            Description:
+                          </p>
+                          <p>
+                            {transaction.description ||
+                              "No description available"}
+                          </p>
+                        </div>
+                      </div>
+                    </DialogDescription>
+                  </DialogHeader>
+                </DialogContent>
+              </Dialog>
 
               <button
                 onClick={() => onDelete(transaction._id)}

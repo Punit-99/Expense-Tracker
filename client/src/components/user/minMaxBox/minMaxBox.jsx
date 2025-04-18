@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchIncome } from "../../../store/transaction/incomeSlice";
 import { fetchExpense } from "../../../store/transaction/expenseSlice";
-import { FaDollarSign } from "react-icons/fa6";
+import { IndianRupee } from "lucide-react";
 
 const MinMaxBox = () => {
   const dispatch = useDispatch();
@@ -27,7 +27,8 @@ const MinMaxBox = () => {
   };
 
   const { minAmount: minIncome, maxAmount: maxIncome } = minMaxAmount(income);
-  const { minAmount: minExpense, maxAmount: maxExpense } = minMaxAmount(expense);
+  const { minAmount: minExpense, maxAmount: maxExpense } =
+    minMaxAmount(expense);
 
   const minMaxData = [
     { title: "Income", minValue: minIncome, maxValue: maxIncome },
@@ -47,10 +48,12 @@ const MinMaxBox = () => {
               </div>
               <div className="bg-white border shadow-md rounded-xl p-2.5 flex justify-between items-center w-full mt-1">
                 <p className="font-normal flex items-center text-orange-300 text-lg">
-                  <FaDollarSign /> {singleItem.minValue}
+                  <IndianRupee size={"20px"} strokeWidth={"3px"} />{" "}
+                  {singleItem.minValue}
                 </p>
                 <p className="font-normal flex items-center text-orange-300 text-lg">
-                  <FaDollarSign /> {singleItem.maxValue}
+                  <IndianRupee size={"20px"} strokeWidth={"3px"} />
+                  {singleItem.maxValue}
                 </p>
               </div>
             </li>
