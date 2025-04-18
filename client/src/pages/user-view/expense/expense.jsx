@@ -12,6 +12,9 @@ import CommonForm from "../../../components/common/common-Form/commonForm";
 import { ScrollArea } from "../../../components/ui/scroll-area";
 import RecentHistory from "../../../components/user/recentHistory/recentHistory";
 import { toast } from "react-hot-toast";
+import { Button } from "../../../components/ui/button";
+import { Download } from "lucide-react";
+import { downloadExpensePDF } from "../../../store/transaction/expenseSlice";
 
 const Expense = () => {
   const dispatch = useDispatch();
@@ -70,7 +73,16 @@ const Expense = () => {
         </div>
 
         <div className="flex-1 bg-gray-100 shadow-md rounded-lg p-6 mt-4 md:mt-0 md:ml-4">
-          <h2 className="text-xl font-semibold mb-4">Expense History</h2>
+          <div className="flex justify-between">
+            <h2 className="text-xl font-semibold mb-4">Expense History</h2>
+            <Button
+              variant={"secondary"}
+              className={"border-2"}
+              onClick={() => dispatch(downloadExpensePDF())}
+            >
+              Download Expense {<Download />}
+            </Button>
+          </div>
           <ScrollArea className="h-[360px]">
             <RecentHistory
               transactions={expense}

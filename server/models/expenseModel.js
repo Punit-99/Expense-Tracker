@@ -13,6 +13,7 @@ const ExpenseSchema = new mongoose.Schema(
     date: { type: Date, required: true, trim: true },
     category: { type: String, required: true, maxLength: 20, trim: true },
     description: { type: String, require: true, maxLength: 50, trim: true },
+    image: { type: String, required: false },
   },
   { timestamps: true }
 );

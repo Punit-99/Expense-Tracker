@@ -22,22 +22,29 @@ export const fetchExpense = createAsyncThunk("expense/fetch", async () => {
 });
 
 // Add Expense (User-Specific)
-export const addExpense = createAsyncThunk("expense/add", async (expenseData) => {
-  const formattedExpense = {
-    title: expenseData.expenseTitle,
-    amount: Number(expenseData.expenseAmount),
-    date: new Date(expenseData.expenseDate),
-    category: expenseData.expenseCategory,
-    description: expenseData.expenseDescription,
-  };
+export const addExpense = createAsyncThunk(
+  "expense/add",
+  async (expenseData) => {
+    const formattedExpense = {
+      title: expenseData.expenseTitle,
+      amount: Number(expenseData.expenseAmount),
+      date: new Date(expenseData.expenseDate),
+      category: expenseData.expenseCategory,
+      description: expenseData.expenseDescription,
+    };
 
-  const response = await axios.post(`${BASE_URL}add-expense`, formattedExpense, {
-    headers: { Authorization: `Bearer ${getToken()}` },
-    withCredentials: true,
-  });
+    const response = await axios.post(
+      `${BASE_URL}add-expense`,
+      formattedExpense,
+      {
+        headers: { Authorization: `Bearer ${getToken()}` },
+        withCredentials: true,
+      }
+    );
 
-  return response.data;
-});
+    return response.data;
+  }
+);
 
 // Delete Expense (User-Specific)
 export const deleteExpense = createAsyncThunk("expense/delete", async (id) => {
@@ -48,6 +55,29 @@ export const deleteExpense = createAsyncThunk("expense/delete", async (id) => {
 
   return id;
 });
+
+// Download Expense PDF
+export const downloadExpensePDF = createAsyncThunk(
+  "expense/downloadPDF",
+  async () => {
+    const response = await axios.get(`${BASE_URL}download-expense-pdf`, {
+      headers: { Authorization: `Bearer ${getToken()}` },
+      responseType: "blob", // Must be blob for file download
+      withCredentials: true,
+    });
+
+    // Trigger the browser to download the PDF
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", "expenses.pdf");
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    return true;
+  }
+);
 
 const expenseSlice = createSlice({
   name: "expense",
@@ -65,7 +95,9 @@ const expenseSlice = createSlice({
       })
       .addCase(deleteExpense.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.expense = state.expense.filter((item) => item._id !== action.payload);
+        state.expense = state.expense.filter(
+          (item) => item._id !== action.payload
+        );
       });
   },
 });

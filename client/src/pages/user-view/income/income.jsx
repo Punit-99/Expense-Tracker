@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   addIncome,
   deleteIncome,
+  downloadIncomePDF,
 } from "../../../store/transaction/incomeSlice";
 import { IncomeFormControl } from "../../../config/formFields";
 import CommonForm from "../../../components/common/common-Form/commonForm";
@@ -10,6 +11,8 @@ import { ScrollArea } from "../../../components/ui/scroll-area";
 import { IncomeInitialFormState } from "../../../config/formFields";
 import RecentHistory from "../../../components/user/recentHistory/recentHistory";
 import { toast } from "react-hot-toast";
+import { Button } from "../../../components/ui/button";
+import { Download } from "lucide-react";
 
 const Income = () => {
   const dispatch = useDispatch();
@@ -67,7 +70,16 @@ const Income = () => {
         </div>
 
         <div className="flex-1 bg-gray-100 shadow-md rounded-lg p-6 mt-4 md:mt-0 md:ml-4">
-          <h2 className="text-xl font-semibold mb-4">Income History</h2>
+          <div className="flex justify-between">
+            <h2 className="text-xl font-semibold mb-4">Income History</h2>
+            <Button
+              variant={"secondary"}
+              className={"border-2"}
+              onClick={() => dispatch(downloadIncomePDF())}
+            >
+              Download Income {<Download />}
+            </Button>
+          </div>
           <ScrollArea className="h-[360px]">
             <RecentHistory
               transactions={income}

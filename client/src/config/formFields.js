@@ -103,6 +103,12 @@ export const IncomeFormControl = [
     ],
   },
   {
+    name: "IncomeImage",
+    id: "IncomeImage",
+    componentType: "file",
+    type: "file",
+  },
+  {
     name: "incomeDescription",
     id: "incomeDescription",
     placeholder: "Income Description",
@@ -151,6 +157,12 @@ export const ExpenseFormControl = [
     ],
   },
   {
+    name: "expenseImage",
+    id: "expenseImage",
+    componentType: "file",
+    type: "file",
+  },
+  {
     name: "expenseDescription",
     id: "expenseDescription",
     placeholder: "Expense Description",
@@ -165,6 +177,7 @@ export const ExpenseFormInitials = {
   expenseDate: null,
   expenseCategory: "",
   expenseDescription: "",
+  expenseImage: null,
 };
 export const IncomeInitialFormState = {
   incomeTitle: "",
@@ -172,4 +185,5 @@ export const IncomeInitialFormState = {
   incomeDate: null, // Changed to lowercase
   incomeCategory: "", // Changed to lowercase
   incomeDescription: "", // Changed to lowercase
+  IncomeImage: null,
 };

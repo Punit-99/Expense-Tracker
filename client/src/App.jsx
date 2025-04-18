@@ -1,9 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, Route, Routes } from "react-router-dom";
 import Layout from "./components/user/layout/layout";
-import Dashboard from "./pages/user-view/dashboard.jsx/dashboard";
+import Dashboard from "./pages/user-view/dashboard/dashboard";
 import Income from "./pages/user-view/income/income";
-import Expense from "./pages/user-view/expense.jsx/expense";
+import Expense from "./pages/user-view/expense/expense";
 import { useEffect, useState } from "react";
 import { CheckAuth } from "./components/common/check-auth/checkAuth";
 import AuthLayout from "./components/auth/authLayout";

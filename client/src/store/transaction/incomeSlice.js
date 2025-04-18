@@ -49,6 +49,29 @@ export const deleteIncome = createAsyncThunk("income/delete", async (id) => {
   return id;
 });
 
+// Download Expense PDF
+export const downloadIncomePDF = createAsyncThunk(
+  "income/downloadPDF",
+  async () => {
+    const response = await axios.get(`${BASE_URL}download-income-pdf`, {
+      headers: { Authorization: `Bearer ${getToken()}` },
+      responseType: "blob", // Must be blob for file download
+      withCredentials: true,
+    });
+
+    // Trigger the browser to download the PDF
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", "income.pdf");
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    return true;
+  }
+);
+
 const incomeSlice = createSlice({
   name: "income",
   initialState,
@@ -65,7 +88,9 @@ const incomeSlice = createSlice({
       })
       .addCase(deleteIncome.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.income = state.income.filter((item) => item._id !== action.payload);
+        state.income = state.income.filter(
+          (item) => item._id !== action.payload
+        );
       });
   },
 });
