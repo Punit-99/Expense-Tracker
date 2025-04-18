@@ -25,22 +25,23 @@ export const fetchExpense = createAsyncThunk("expense/fetch", async () => {
 export const addExpense = createAsyncThunk(
   "expense/add",
   async (expenseData) => {
-    const formattedExpense = {
-      title: expenseData.expenseTitle,
-      amount: Number(expenseData.expenseAmount),
-      date: new Date(expenseData.expenseDate),
-      category: expenseData.expenseCategory,
-      description: expenseData.expenseDescription,
-    };
+    const formData = new FormData();
+    formData.append("title", expenseData.expenseTitle);
+    formData.append("amount", Number(expenseData.expenseAmount));
+    formData.append("date", expenseData.expenseDate.toISOString()); // keep it string if backend expects it that way
+    formData.append("category", expenseData.expenseCategory);
+    formData.append("description", expenseData.expenseDescription);
+    formData.append("expenseImage", expenseData.expenseImage); // 👈 append image file
 
-    const response = await axios.post(
-      `${BASE_URL}add-expense`,
-      formattedExpense,
-      {
-        headers: { Authorization: `Bearer ${getToken()}` },
-        withCredentials: true,
-      }
-    );
+    console.log("expenseImage file:", expenseData.expenseImage); // Should be a File object
+
+    const response = await axios.post(`${BASE_URL}add-expense`, formData, {
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+        "Content-Type": "multipart/form-data",
+      },
+      withCredentials: true,
+    });
 
     return response.data;
   }

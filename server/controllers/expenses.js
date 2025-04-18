@@ -1,28 +1,49 @@
+const { imageUploadUtil } = require("../helpers/cloudinary");
 const ExpenseSchema = require("../models/expenseModel");
 const PDFDocument = require("pdfkit");
 
 const addExpense = async (req, res) => {
   const { title, amount, category, description, date } = req.body;
-  const expense = new ExpenseSchema({
-    userId: req.user.id, // Assign the logged-in user's ID
-    title,
-    amount,
-    category,
-    description,
-    date,
-  });
+  const imageFile = req.file;
 
+  console.log("Image File:", imageFile);
   try {
     if (!title || !category || !description || !date) {
       return res.status(400).json({ message: "All fields are required" });
     }
-    if (amount <= 0 || typeof amount !== "number") {
+
+    if (amount <= 0 || isNaN(amount)) {
       return res.status(400).json({ message: "Amount must be positive" });
     }
 
-    await expense.save();
+    let imageUrl = null;
+    let imagePublicID = null;
+
+    if (imageFile) {
+      const uploadResult = await imageUploadUtil(
+        imageFile.buffer,
+        imageFile.mimetype
+      );
+      imageUrl = uploadResult.secure_url;
+      imagePublicID = uploadResult.public_id;
+    }
+
+    const newExpense = new ExpenseSchema({
+      userId: req.user.id,
+      title,
+      amount,
+      category,
+      description,
+      date: new Date(date),
+      image: imageUrl
+        ? { imageURL: imageUrl, imagePublicID: imagePublicID }
+        : null,
+    });
+
+    await newExpense.save();
     res.status(200).json({ message: "Expense Added" });
   } catch (error) {
+    console.error("Error adding expense:", error);
     res.status(500).json({ message: "Server Error" });
   }
 };

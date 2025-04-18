@@ -25,6 +25,7 @@ const Income = () => {
       toast.error("Please fill out all fields!");
       return;
     }
+    // console.log(incomeFormData);
     dispatch(addIncome(incomeFormData));
     toast.success("Income added successfully!");
     setIncomeFormData(IncomeInitialFormState); // Reset form after submission

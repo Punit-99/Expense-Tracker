@@ -23,19 +23,22 @@ export const fetchIncome = createAsyncThunk("income/fetch", async () => {
 
 // Add Income (User-Specific)
 export const addIncome = createAsyncThunk("income/add", async (incomeData) => {
-  const formattedIncome = {
-    title: incomeData.incomeTitle,
-    amount: Number(incomeData.incomeAmount),
-    date: new Date(incomeData.incomeDate),
-    category: incomeData.incomeCategory,
-    description: incomeData.incomeDescription,
-  };
+  const formData = new FormData();
+  formData.append("title", incomeData.incomeTitle);
+  formData.append("amount", Number(incomeData.incomeAmount));
+  formData.append("date", incomeData.incomeDate.toISOString()); // keep it string if backend expects it that way
+  formData.append("category", incomeData.incomeCategory);
+  formData.append("description", incomeData.incomeDescription);
+  formData.append("incomeImage", incomeData.incomeImage); // 👈 append image file
 
-  const response = await axios.post(`${BASE_URL}add-income`, formattedIncome, {
-    headers: { Authorization: `Bearer ${getToken()}` },
+  console.log("incomeImage", incomeData.incomeImage);
+  const response = await axios.post(`${BASE_URL}add-income`, formData, {
+    headers: {
+      Authorization: `Bearer ${getToken()}`,
+      "Content-Type": "multipart/form-data",
+    },
     withCredentials: true,
   });
-
   return response.data;
 });
 

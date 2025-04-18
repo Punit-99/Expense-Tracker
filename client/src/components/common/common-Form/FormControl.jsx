@@ -53,6 +53,42 @@ const FormControls = ({
           />
         );
         break;
+        case "file":
+          element = (
+            <div className="flex items-center space-x-4">
+              {/* Custom Button for File Upload */}
+              <label
+                htmlFor={getControlItem.name}
+                className="cursor-pointer px-4 py-2 bg-gray-400 text-white rounded hover:bg-gray-700"
+              >
+                Upload File
+              </label>
+        
+              {/* Hidden File Input */}
+              <input
+                id={getControlItem.name}
+                type="file"
+                name={getControlItem.name}
+                className="hidden"
+                onChange={(event) => {
+                  const file = event.target.files[0];
+                  setFormData({
+                    ...formData,
+                    [getControlItem.name]: file, // ✅ Store actual file object
+                  });
+                }}
+              />
+        
+              {/* Optional Preview/File Name */}
+              {formData[getControlItem.name] && (
+                <span className="text-sm text-gray-600">
+                  {formData[getControlItem.name]?.name || "File selected"}
+                </span>
+              )}
+            </div>
+          );
+          break;
+        
       case "select":
         element = (
           <Select
