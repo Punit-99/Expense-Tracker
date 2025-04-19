@@ -1,26 +1,30 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
+import { useEffect } from "react";
+import SkeletonLayout from "./components/skeleton layout/SkeletonLayout";
 import Layout from "./components/user/layout/layout";
 import Dashboard from "./pages/user-view/dashboard/dashboard";
 import Income from "./pages/user-view/income/income";
 import Expense from "./pages/user-view/expense/expense";
-import { useEffect, useState } from "react";
-import { CheckAuth } from "./components/common/check-auth/checkAuth";
-import AuthLayout from "./components/auth/authLayout";
-import { checkAuth } from "./store/auth/authSlice";
-import Registration from "./pages/auth-view/registration";
 import Login from "./pages/auth-view/login";
-import SkeletonLayout from "./components/skeleton layout/SkeletonLayout";
+import Registration from "./pages/auth-view/registration";
+import AuthLayout from "./components/auth/authLayout";
+import { CheckAuth } from "./components/common/check-auth/checkAuth";
+import { checkAuth } from "./store/auth/authSlice";
 function App() {
   const { isAuthenticated, isLoading } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
+  const location = useLocation();
+
+  const isAuthPage = location.pathname.startsWith("/auth");
 
   useEffect(() => {
     dispatch(checkAuth());
   }, [dispatch]);
 
-  if (isLoading) return <SkeletonLayout />;
+  if (isLoading && !isAuthPage) return <SkeletonLayout />;
+
   return (
     <>
       <Routes>

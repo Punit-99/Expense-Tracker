@@ -23,7 +23,8 @@ function CommonForm({
       <Button
         disabled={isButtonDisabled}
         type="submit"
-        className=" p-2 bg-blue-500 text-white rounded disabled:opacity-50 mt-3"
+        className=" p-2 bg-blue-500 text-white rounded disabled:opacity-50 mt-3
+        cursor-pointer"
       >
         <span>{buttonIcon}</span>
         {buttonText || "Submit"}

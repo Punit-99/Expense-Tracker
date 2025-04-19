@@ -1,6 +1,6 @@
 import { Navigate, useLocation } from "react-router-dom";
 
-export const CheckAuth = ({ isAuthenticated, user, children }) => {
+export const CheckAuth = ({ isAuthenticated, children }) => {
   const location = useLocation();
 
   // Redirect to auth if user is not authenticated and trying to access "/"

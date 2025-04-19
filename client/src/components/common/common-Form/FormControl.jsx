@@ -74,6 +74,7 @@ const FormControls = ({
               type="file"
               name={getControlItem.name}
               className="hidden"
+              accept="image/*"
               onChange={(event) => {
                 const file = event.target.files[0];
                 setFormData({
@@ -192,9 +193,11 @@ const FormControls = ({
             </InputOTP>
             <Button
               type="button"
-              className="px-3 py-3 rounded bg-blue-500 text-white text-sm disabled:bg-gray-400"
+              className="px-3 py-3 rounded bg-blue-500 text-white text-sm disabled:bg-gray-400 cursor-pointer"
               onClick={handleGetOTP}
-              disabled={isButtonDisabled || otpVerified || value.length < 6} // ✅ Disable button after OTP verification
+              disabled={
+                isButtonDisabled || otpVerified || (otpSent && value.length < 6)
+              }
             >
               {otpVerified ? "Verified " : otpSent ? "Verify OTP" : "Get OTP"}
             </Button>

@@ -93,8 +93,8 @@ const Login = () => {
         type="submit"
         onClick={onSubmit}
         disabled={!isFormValid() || !otpVerified}
+        className={otpVerified && "bg-blue-500"}
       >
-        {" "}
         {/* ✅ Disable login until OTP is verified */}
         Login
       </Button>
