@@ -12,7 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Calendar } from "../../ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "../../ui/popover";
-import { Calendar as CalendarIcon } from "lucide-react";
+import { Calendar as CalendarIcon, File } from "lucide-react";
 import { format } from "date-fns";
 import {
   InputOTP,
@@ -53,6 +53,7 @@ const FormControls = ({
           />
         );
         break;
+
       case "file":
         element = (
           <div className="flex items-center space-x-4">
@@ -61,7 +62,10 @@ const FormControls = ({
               htmlFor={getControlItem.name}
               className="cursor-pointer px-4 py-2 bg-gray-400 text-white rounded hover:bg-gray-700"
             >
-              Upload File
+              <span className="flex items-center justify-center gap-2">
+                <File size="18px" />
+                Upload File
+              </span>
             </label>
 
             {/* Hidden File Input */}
@@ -132,7 +136,7 @@ const FormControls = ({
           <div className="relative">
             <Popover>
               <PopoverTrigger asChild>
-                <Button variant="outline">
+                <Button className="cursor-pointer px-4 py-2 bg-gray-400 text-white rounded hover:bg-gray-700">
                   <CalendarIcon className="mr-2 h-3 w-3" />
                   {value ? (
                     format(new Date(value), "PPP")
