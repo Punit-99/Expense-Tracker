@@ -43,14 +43,18 @@ export const addIncome = createAsyncThunk("income/add", async (incomeData) => {
 });
 
 // Delete Income (User-Specific)
-export const deleteIncome = createAsyncThunk("income/delete", async (id) => {
-  await axios.delete(`${BASE_URL}delete-income/${id}`, {
-    headers: { Authorization: `Bearer ${getToken()}` },
-    withCredentials: true,
-  });
+export const deleteIncome = createAsyncThunk(
+  "income/delete",
+  async ({ id, imagePublicID }) => {
+    await axios.delete(`${BASE_URL}delete-income/${id}`, {
+      headers: { Authorization: `Bearer ${getToken()}` },
+      data: { imagePublicId: imagePublicID },
+      withCredentials: true,
+    });
 
-  return id;
-});
+    return id;
+  }
+);
 
 // Download Expense PDF
 export const downloadIncomePDF = createAsyncThunk(

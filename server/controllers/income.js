@@ -1,4 +1,5 @@
 const { imageUploadUtil } = require("../helpers/cloudinary");
+const destroyImage = require("../helpers/destoryCloudinary");
 const IncomeSchema = require("../models/incomeModel");
 const PDFDocument = require("pdfkit");
 
@@ -62,18 +63,26 @@ const getIncome = async (req, res) => {
 const deleteIncome = async (req, res) => {
   try {
     const { id } = req.params;
+    const { imagePublicId } = req.body;
+
     const income = await IncomeSchema.findOne({ _id: id, userId: req.user.id });
 
     if (!income) {
       return res.status(404).json({ message: "Income not found" });
     }
 
+    // 🔥 Call the Cloudinary image destroy function
+    if (imagePublicId) {
+      await destroyImage(imagePublicId);
+    }
+
     await income.deleteOne();
     res.status(200).json({ message: "Income Deleted" });
   } catch (error) {
-    res.status(500).json({ message: "Server Error" });
+    res.status(500).json({ message: "Server Error", error });
   }
 };
+
 const downloadIncomePDF = async (req, res) => {
   try {
     const userId = req.user.id;

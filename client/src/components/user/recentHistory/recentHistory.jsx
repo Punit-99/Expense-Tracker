@@ -3,13 +3,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchIncome } from "../../../store/transaction/incomeSlice";
 import { fetchExpense } from "../../../store/transaction/expenseSlice";
-import {
-  FaTrash,
-  FaMessage,
-  FaCalendarDays,
-  FaPlus,
-  FaMinus,
-} from "react-icons/fa6";
+import { FaTrash, FaCalendarDays, FaPlus, FaMinus } from "react-icons/fa6";
 import { useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ScrollArea } from "@/components/ui/scroll-area"; // Import ScrollArea from shadCN
@@ -22,7 +16,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { IndianRupee } from "lucide-react";
+import { IndianRupee, ReceiptText } from "lucide-react";
 
 const RecentHistory = ({
   onDelete = null,
@@ -143,7 +137,7 @@ const RecentHistory = ({
               <Dialog>
                 <DialogTrigger asChild>
                   <button className="bg-slate-500 text-white hover:text-white hover:bg-slate-700 border border-slate-500 focus:ring-4 focus:outline-none font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center">
-                    <FaMessage size={17} />
+                    <ReceiptText size={18} />
                   </button>
                 </DialogTrigger>
                 <DialogContent>
@@ -176,7 +170,6 @@ const RecentHistory = ({
                           </div>
                         </div>
 
-                        {/* Date */}
                         {/* Date */}
                         <div className="flex flex-col gap-1">
                           <p className="font-semibold text-base">Date:</p>
@@ -236,10 +229,21 @@ const RecentHistory = ({
               </Dialog>
 
               <button
-                onClick={() => onDelete(transaction._id)}
+                onClick={() =>
+                  onDelete({
+                    id: transaction._id,
+                    imagePublicID: transaction.image.imagePublicID,
+                  })
+                }
                 type="button"
                 className="text-white border border-red-400 bg-red-400 hover:bg-red-500 hover:border-red-500 hover:text-white focus:outline-none font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center"
               >
+                {/* {console.log(
+                  "TID:",
+                  transaction._id,
+                  "IPID:",
+                  transaction.image.imagePublicID
+                )} */}
                 <FaTrash size={17} />
               </button>
             </div>

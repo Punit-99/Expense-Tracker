@@ -86,8 +86,8 @@ const Expense = () => {
           <ScrollArea className="h-[360px]">
             <RecentHistory
               transactions={expense}
-              onDelete={(id) => {
-                dispatch(deleteExpense(id));
+              onDelete={({ id, imagePublicID }) => {
+                dispatch(deleteExpense({ id, imagePublicID }));
                 toast.success("Expense deleted successfully!");
               }}
               isIncome={false}

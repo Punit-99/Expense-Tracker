@@ -1,4 +1,5 @@
 const { imageUploadUtil } = require("../helpers/cloudinary");
+const destroyImage = require("../helpers/destoryCloudinary");
 const ExpenseSchema = require("../models/expenseModel");
 const PDFDocument = require("pdfkit");
 
@@ -62,6 +63,8 @@ const getExpense = async (req, res) => {
 const deleteExpense = async (req, res) => {
   try {
     const { id } = req.params;
+    const { imagePublicId } = req.body;
+
     const expense = await ExpenseSchema.findOne({
       _id: id,
       userId: req.user.id,
@@ -70,6 +73,9 @@ const deleteExpense = async (req, res) => {
     if (!expense) {
       return res.status(404).json({ message: "Expense not found" });
     }
+    if (imagePublicId) {
+      await destroyImage(imagePublicId);
+    }
 
     await expense.deleteOne();
     res.status(200).json({ message: "Expense Deleted" });
@@ -77,6 +83,7 @@ const deleteExpense = async (req, res) => {
     res.status(500).json({ message: "Server Error" });
   }
 };
+
 const downloadExpensePDF = async (req, res) => {
   try {
     const userId = req.user.id;

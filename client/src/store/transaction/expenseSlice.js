@@ -48,14 +48,18 @@ export const addExpense = createAsyncThunk(
 );
 
 // Delete Expense (User-Specific)
-export const deleteExpense = createAsyncThunk("expense/delete", async (id) => {
-  await axios.delete(`${BASE_URL}delete-expense/${id}`, {
-    headers: { Authorization: `Bearer ${getToken()}` },
-    withCredentials: true,
-  });
+export const deleteExpense = createAsyncThunk(
+  "expense/delete",
+  async ({ id, imagePublicID }) => {
+    await axios.delete(`${BASE_URL}delete-expense/${id}`, {
+      headers: { Authorization: `Bearer ${getToken()}` },
+      data: { imagePublicId: imagePublicID },
+      withCredentials: true,
+    });
 
-  return id;
-});
+    return id;
+  }
+);
 
 // Download Expense PDF
 export const downloadExpensePDF = createAsyncThunk(

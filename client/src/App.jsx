@@ -10,6 +10,7 @@ import AuthLayout from "./components/auth/authLayout";
 import { checkAuth } from "./store/auth/authSlice";
 import Registration from "./pages/auth-view/registration";
 import Login from "./pages/auth-view/login";
+import SkeletonLayout from "./components/skeleton layout/SkeletonLayout";
 function App() {
   const { isAuthenticated, isLoading } = useSelector((state) => state.auth);
 
@@ -19,7 +20,7 @@ function App() {
     dispatch(checkAuth());
   }, [dispatch]);
 
-  // if (isLoading) return "Loading...";
+  if (isLoading) return <SkeletonLayout />;
   return (
     <>
       <Routes>

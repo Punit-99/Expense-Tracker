@@ -190,7 +190,7 @@ const FormControls = ({
               type="button"
               className="px-3 py-3 rounded bg-blue-500 text-white text-sm disabled:bg-gray-400"
               onClick={handleGetOTP}
-              disabled={isButtonDisabled || otpVerified} // ✅ Disable button after OTP verification
+              disabled={isButtonDisabled || otpVerified || value.length < 6} // ✅ Disable button after OTP verification
             >
               {otpVerified ? "Verified " : otpSent ? "Verify OTP" : "Get OTP"}
             </Button>
