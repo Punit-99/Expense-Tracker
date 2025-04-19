@@ -15,6 +15,11 @@ const Registration = () => {
     useState(registerFormInitial);
   const dispatch = useDispatch();
 
+  // Function to check if all required fields are filled
+  const isFormValid = Object.values(registrationFormData).every(
+    (field) => field.trim() !== "" // Checks if the field is not empty
+  );
+
   function onSubmit(event) {
     event.preventDefault();
 
@@ -29,7 +34,9 @@ const Registration = () => {
 
   return (
     <div>
-      <h2 className="text-2xl font-bold text-center mb-4">Register</h2>
+      <h2 className="text-2xl font-bold text-center mb-4 ">
+        Register
+      </h2>
       <FormControls
         formControls={registerFormControls}
         formData={registrationFormData}
@@ -41,7 +48,14 @@ const Registration = () => {
           Sign in
         </Link>
       </p>
-      <Button type="submit" onClick={onSubmit}>
+      <Button
+        type="submit"
+        onClick={onSubmit}
+        className={`cursor-pointer px-4 py-2 bg-[#272A34] text-white rounded ${
+          isFormValid && "bg-blue-700"
+        }`}
+        disabled={!isFormValid} // Disable button if form is not valid
+      >
         Sign Up
       </Button>
     </div>

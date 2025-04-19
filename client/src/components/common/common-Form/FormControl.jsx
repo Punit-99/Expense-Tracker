@@ -176,7 +176,10 @@ const FormControls = ({
               maxLength={6}
               value={value}
               onChange={(otpValue) =>
-                setFormData({ ...formData, [getControlItem.name]: otpValue })
+                setFormData((prev) => ({
+                  ...prev,
+                  [getControlItem.name]: otpValue,
+                }))
               }
             >
               <InputOTPGroup>
