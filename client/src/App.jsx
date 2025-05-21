@@ -16,7 +16,8 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(checkAuth());
+    const getToken = JSON.parse(sessionStorage.getItem("token"));
+    dispatch(checkAuth(getToken));
   }, [dispatch]);
 
   return (

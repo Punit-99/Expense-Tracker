@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Avatar } from "@/components/ui/avatar";
 import { IoLogOut } from "react-icons/io5";
 import {
@@ -20,7 +20,10 @@ import {
 } from "@/components/ui/sidebar";
 import { Separator } from "../../ui/separator";
 import { Button } from "../../ui/button";
-import { logoutUser } from "../../../store/auth/authSlice";
+import {
+  logoutUser,
+  resetTokenAndCredentials,
+} from "../../../store/auth/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import { capitalizeName } from "../../../util/captilize";
@@ -33,10 +36,15 @@ const navigationMenuItems = [
 export function SideBar() {
   const location = useLocation();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
 
   function handleOnClick() {
-    dispatch(logoutUser()).then(toast.success("Logged Out"));
+    // dispatch(logoutUser())
+    dispatch(resetTokenAndCredentials)
+      .then(sessionStorage.clear)
+      .then(toast.success("Logged Out"))
+      .then(navigate("/auth/login"));
   }
 
   return (

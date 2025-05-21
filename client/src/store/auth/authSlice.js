@@ -76,10 +76,21 @@ export const logoutUser = createAsyncThunk("/auth/logout", async () => {
 });
 
 // Check Authentication
-export const checkAuth = createAsyncThunk("/auth/checkauth", async () => {
+// export const checkAuth = createAsyncThunk("/auth/checkauth", async () => {
+//   const response = await axios.get(`${BASE_URL}/check-auth`, {
+//     withCredentials: true,
+//     headers: {
+//       "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+//     },
+//   });
+
+//   return response.data;
+// });
+export const checkAuth = createAsyncThunk("/auth/checkauth", async (token) => {
   const response = await axios.get(`${BASE_URL}/check-auth`, {
     withCredentials: true,
     headers: {
+      Authorization: `Bearer ${token}`,
       "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
     },
   });
@@ -94,6 +105,11 @@ const authSlice = createSlice({
     setUser: (state, action) => {
       state.user = action.payload;
       state.isAuthenticated = !!action.payload;
+      resetTokenAndCredentials: (state) => {
+        state.isAuthenticated = false;
+        state.user = null;
+        state.token = null;
+      };
     },
   },
   extraReducers: (builder) => {
@@ -108,6 +124,7 @@ const authSlice = createSlice({
         state.user = action.payload.success ? action.payload.user : null;
         state.isAuthenticated = action.payload.success;
         state.token = action.payload.success ? action.payload.token : null;
+        sessionStorage.setItem("token", JSON.stringify(action.payload.token));
       })
       .addCase(checkAuth.fulfilled, (state, action) => {
         state.isLoading = false;
@@ -155,5 +172,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { setUser } = authSlice.actions;
+export const { setUser ,resetTokenAndCredentials} = authSlice.actions;
 export default authSlice.reducer;
