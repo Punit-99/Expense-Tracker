@@ -101,17 +101,18 @@ export const checkAuth = createAsyncThunk("/auth/checkauth", async (token) => {
 const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {
-    setUser: (state, action) => {
-      state.user = action.payload;
-      state.isAuthenticated = !!action.payload;
-      resetTokenAndCredentials: (state) => {
-        state.isAuthenticated = false;
-        state.user = null;
-        state.token = null;
-      };
-    },
+ reducers: {
+  setUser: (state, action) => {
+    state.user = action.payload;
+    state.isAuthenticated = !!action.payload;
   },
+  resetTokenAndCredentials: (state) => {
+    state.isAuthenticated = false;
+    state.user = null;
+    state.token = null;
+  },
+},
+
   extraReducers: (builder) => {
     builder
       .addCase(registerUser.fulfilled, (state) => {

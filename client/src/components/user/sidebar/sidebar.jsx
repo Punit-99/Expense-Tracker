@@ -41,10 +41,10 @@ export function SideBar() {
 
   function handleOnClick() {
     // dispatch(logoutUser())
-    dispatch(resetTokenAndCredentials)
-      .then(sessionStorage.clear)
-      .then(toast.success("Logged Out"))
-      .then(navigate("/auth/login"));
+    dispatch(resetTokenAndCredentials()); // ← CALL IT PROPERLY
+    sessionStorage.clear();
+    toast.success("Logged Out");
+    navigate("/auth/login");
   }
 
   return (
