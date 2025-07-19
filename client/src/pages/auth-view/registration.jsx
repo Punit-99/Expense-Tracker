@@ -34,9 +34,7 @@ const Registration = () => {
 
   return (
     <div>
-      <h2 className="text-2xl font-bold text-center mb-4 ">
-        Register
-      </h2>
+      <h2 className="text-2xl font-bold text-center mb-4 ">Register</h2>
       <FormControls
         formControls={registerFormControls}
         formData={registrationFormData}

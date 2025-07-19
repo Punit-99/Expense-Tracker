@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const BASE_URL = `${import.meta.env.VITE_API_URL}/api/v1/auth`;
+const BASE_URL = "http://localhost:5000/api/v1/auth";
 
 const initialState = {
   isAuthenticated: false,
@@ -101,17 +101,17 @@ export const checkAuth = createAsyncThunk("/auth/checkauth", async (token) => {
 const authSlice = createSlice({
   name: "auth",
   initialState,
- reducers: {
-  setUser: (state, action) => {
-    state.user = action.payload;
-    state.isAuthenticated = !!action.payload;
+  reducers: {
+    setUser: (state, action) => {
+      state.user = action.payload;
+      state.isAuthenticated = !!action.payload;
+    },
+    resetTokenAndCredentials: (state) => {
+      state.isAuthenticated = false;
+      state.user = null;
+      state.token = null;
+    },
   },
-  resetTokenAndCredentials: (state) => {
-    state.isAuthenticated = false;
-    state.user = null;
-    state.token = null;
-  },
-},
 
   extraReducers: (builder) => {
     builder
@@ -173,5 +173,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { setUser ,resetTokenAndCredentials} = authSlice.actions;
+export const { setUser, resetTokenAndCredentials } = authSlice.actions;
 export default authSlice.reducer;
